@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vũ Trụ - 10 Trang Animation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;font-family:Arial,sans-serif;background:#000;overflow:hidden;color:#fff}
+.deck{width:100vw;height:100vh;position:relative}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;background:radial-gradient(ellipse at center,#000033 0%,#000 70%)}
+.slide.active{display:flex}
+h1{font-size:4em;color:#ffcc00;margin-bottom:20px;text-shadow:0 0 20px #ffcc00}
+h2{font-size:2.5em;color:#99ccff;margin-bottom:30px}
+p{font-size:1.3em;max-width:900px;line-height:1.8;margin:10px 0}
+ul{list-style:none;max-width:800px}
+li{font-size:1.2em;margin:10px 0;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px}
+.nav{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);display:flex;gap:15px;z-index:100}
+.nav button{padding:10px 20px;background:rgba(255,255,255,0.1);border:1px solid #666;color:#fff;cursor:pointer;border-radius:5px}
+.nav button:hover{background:rgba(255,204,0,0.3)}
+.counter{position:fixed;bottom:30px;right:30px;color:#aaa;z-index:100}
+.stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;width:2px;height:2px;background:#fff;animation:twinkle 3s infinite}
+@keyframes twinkle{0%,100%{opacity:0.3}50%{opacity:1}}
+.universe{position:relative;width:600px;height:400px;margin-top:40px}
+.sun{position:absolute;width:60px;height:60px;background:radial-gradient(circle,#ffcc00,#ff6600);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 40px #ffcc00;cursor:pointer}
+.planet{position:absolute;border-radius:50%;cursor:pointer;transition:transform 0.3s}
+.planet:hover{transform:scale(1.2)}
+.mercury{width:8px;height:8px;background:#aaa;top:50%;left:50%;margin:-4px 0 0 90px;animation:orbit 4s linear infinite}
+.venus{width:12px;height:12px;background:#ffcc99;top:50%;left:50%;margin:-6px 0 0 120px;animation:orbit 6s linear infinite}
+.earth{width:14px;height:14px;background:radial-gradient(circle,#3399ff,#0066cc);top:50%;left:50%;margin:-7px 0 0 150px;animation:orbit 8s linear infinite}
+.mars{width:10px;height:10px;background:#ff6666;top:50%;left:50%;margin:-5px 0 0 180px;animation:orbit 10s linear infinite}
+.jupiter{width:30px;height:30px;background:radial-gradient(circle,#ffcc99,#cc9966);top:50%;left:50%;margin:-15px 0 0 220px;animation:orbit 15s linear infinite}
+@keyframes orbit{from{transform:rotate(0deg) translateX(0px) rotate(0deg)}to{transform:rotate(360deg) translateX(0px) rotate(-360deg)}}
+.bigbang{position:relative;width:200px;height:200px;margin-top:40px}
+.bang{position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;top:50%;left:50%;animation:explode 3s ease-out infinite}
+@keyframes explode{0%{transform:translate(-50%,-50%) scale(0);opacity:1}50%{opacity:0.8}100%{transform:translate(var(--x),var(--y)) scale(0.5);opacity:0}}
+.galaxy{position:relative;width:400px;height:400px;margin-top:40px}
+.spiral{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:spiral 20s linear infinite}
+@keyframes spiral{from{transform:rotate(0deg) translateX(150px) scale(1)}to{transform:rotate(360deg) translateX(50px) scale(0.3)}}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:1000;align-items:center;justify-content:center}
+.modal.active{display:flex}
+.modal-content{background:rgba(0,0,51,0.9);padding:40px;border-radius:10px;max-width:600px;border:2px solid #ffcc00;text-align:center}
+.modal-content h3{color:#ffcc00;font-size:2em;margin-bottom:20px}
+.modal-content p{font-size:1.2em;line-height:1.8}
+.close{position:absolute;top:20px;right:30px;font-size:2em;cursor:pointer;color:#fff}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="deck">
+  <section class="slide active">
+    <h1>VŨ TRỤ</h1>
+    <p>Hành trình khám phá vũ trụ bao la</p>
+    <p style="margin-top:40px;color:#aaa">10 trang - Animation tương tác</p>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 1: Big Bang - Khởi nguyên</h2>
+    <p>Vụ nổ Big Bang cách đây ~13,8 tỷ năm</p>
+    <div class="bigbang" id="bigbang"></div>
+    <ul style="margin-top:30px">
+      <li>Từ điểm kỳ dị cực kỳ nóng và đặc</li>
+      <li>Thời gian, không gian bắt đầu tồn tại</li>
+      <li>Vũ trụ liên tục giãn nở</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 2: Vũ trụ sơ khai</h2>
+    <p>Sau Big Bang, vũ trụ trải qua quá trình nguội dần</p>
+    <ul>
+      <li>Sau 3 phút: Nguyên tử nhẹ (H, He) hình thành</li>
+      <li>Sau 380.000 năm: Bức xạ nền CMB xuất hiện</li>
+      <li>Ánh sáng có thể truyền đi lần đầu tiên</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 3: Các thiên hà đầu tiên</h2>
+    <p>200-500 triệu năm sau Big Bang, các sao đầu tiên xuất hiện</p>
+    <div class="galaxy" id="galaxy"></div>
+    <ul style="margin-top:20px">
+      <li>Sao Population III - Sao đầu tiên</li>
+      <li>Khối lượng cực lớn, tuổi thọ ngắn</li>
+      <li>Tạo ra các nguyên tố nặng</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 4: Ngân Hà Milky Way</h2>
+    <p>Thiên hà xoắn ốc chứa Hệ Mặt Trời chúng ta</p>
+    <ul>
+      <li>Đường kính: ~100.000 năm ánh sáng</li>
+      <li>100-400 tỷ ngôi sao</li>
+      <li>Trung tâm: Lỗ đen siêu khối lượng Sagittarius A*</li>
+      <li>Tuổi: ~13,6 tỷ năm</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 5: Hệ Mặt Trời</h2>
+    <p>Nhấn vào các hành tinh để xem giải thích</p>
+    <div class="universe">
+      <div class="sun" onclick="showInfo('sun')"></div>
+      <div class="planet mercury" onclick="showInfo('mercury')"></div>
+      <div class="planet venus" onclick="showInfo('venus')"></div>
+      <div class="planet earth" onclick="showInfo('earth')"></div>
+      <div class="planet mars" onclick="showInfo('mars')"></div>
+      <div class="planet jupiter" onclick="showInfo('jupiter')"></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 6: Các thiên thể</h2>
+    <p>Đa dạng các dạng thiên thể trong vũ trụ</p>
+    <ul>
+      <li><strong>Sao:</strong> Cầu khí nóng phát sáng</li>
+      <li><strong>Hành tinh:</strong> Quỹ đạo quanh sao</li>
+      <li><strong>Sao neutron:</strong> Rất nhỏ, mật độ cực cao</li>
+      <li><strong>Lỗ đen:</strong> Không gian cong mạnh</li>
+      <li><strong>Nebula:</strong> Đám mây bụi khí</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 7: Vật chất tối</h2>
+    <p>~85% vật chất vũ trụ - Bí ẩn chưa giải mã</p>
+    <ul>
+      <li>Không tương tác với ánh sáng</li>
+      <li>Chỉ tương tác qua hấp dẫn</li>
+      <li>Ảnh hưởng đến vận tốc thiên hà</li>
+      <li>Chưa phát hiện trực tiếp</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 8: Năng lượng tối</h2>
+    <p>~68% tổng năng lượng - Nguyên nhân giãn nở tăng tốc</p>
+    <ul>
+      <li>Phát hiện từ siêu tân tinh loại Ia</li>
+      <li>Đẩy các thiên hà xa nhau nhanh hơn</li>
+      <li>Hằng số vũ trụ hoặc năng lượng chân không</li>
+      <li>Bí ẩn lớn nhất vật lý hiện đại</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 9: Tương lai vũ trụ</h2>
+    <p>Các giả thuyết về số phận vũ trụ</p>
+    <ul>
+      <li><strong>Big Freeze:</strong> Vũ trụ nguội dần, ngôi sao tắt hết</li>
+      <li><strong>Big Rip:</strong> Năng lượng tối xé toạc mọi cấu trúc</li>
+      <li><strong>Big Crunch:</strong> Vũ trụ co lại về điểm kỳ dị</li>
+      <li><strong>Big Bounce:</strong> Chu kỳ giãn nở - co lại vô tận</li>
+    </ul>
+  </section>
+
+  <section class="slide">
+    <h2>Trang 10: Tìm kiếm sự sống ngoài Trái Đất</h2>
+    <p>Liệu chúng ta có đơn độc trong vũ trụ?</p>
+    <ul>
+      <li><strong>Exoplanet:</strong> Hành tinh ngoài Hệ Mặt Trời</li>
+      <li><strong>Vùng Goldilocks:</strong> Nước lỏng có thể tồn tại</li>
+      <li><strong>Kepler, TESS, JWST:</strong> Tìm kiếm hành tinh</li>
+      <li><strong>SETI:</strong> Tìm kiếm tín hiệu thông minh</li>
+    </ul>
+    <p style="margin-top:40px;color:#ffcc00;font-size:1.5em">Khám phá không bao giờ dừng lại!</p>
+  </section>
+</div>
+
+<div class="nav">
+  <button onclick="prevSlide()">← Trước</button>
+  <button onclick="nextSlide()">Sau →</button>
+</div>
+<div class="counter"><span id="cur">1</span> / 10</div>
+
+<div class="modal" id="modal">
+  <span class="close" onclick="closeModal()">&times;</span>
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<script>
+function createStars(){
+  const stars=document.getElementById('stars');
+  for(let i=0;i<200;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.style.left=Math.random()*100+'%';
+    s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=Math.random()*3+'s';
+    stars.appendChild(s);
+  }
+}
+function createBigBang(){
+  const bb=document.getElementById('bigbang');
+  for(let i=0;i<30;i++){
+    const b=document.createElement('div');
+    b.className='bang';
+    const angle=(i/30)*Math.PI*2;
+    const dist=80+Math.random()*40;
+    b.style.setProperty('--x',Math.cos(angle)*dist+'px');
+    b.style.setProperty('--y',Math.sin(angle)*dist+'px');
+    b.style.animationDelay=i*0.1+'s';
+    bb.appendChild(b);
+  }
+}
+function createGalaxy(){
+  const g=document.getElementById('galaxy');
+  for(let i=0;i<50;i++){
+    const s=document.createElement('div');
+    s.className='spiral';
+    s.style.animationDelay=i*0.4+'s';
+    s.style.left='50%';
+    s.style.top='50%';
+    g.appendChild(s);
+  }
+}
+let current=0;
+const slides=document.querySelectorAll('.slide');
+function showSlide(n){
+  slides.forEach((s,i)=>s.classList.toggle('active',i===n));
+  document.getElementById('cur').textContent=n+1;
+  current=n;
+}
+function nextSlide(){if(current<slides.length-1)showSlide(current+1)}
+function prevSlide(){if(current>0)showSlide(current-1)}
+const info={
+  sun:{title:'Mặt Trời',text:'Ngôi sao trung tâm Hệ Mặt Trời. Khối lượng chiếm 99,86% toàn hệ. Nhiệt độ lõi ~15 triệu °C, tạo năng lượng bằng phản ứng nhiệt hạch.'},
+  mercury:{title:'Sao Thủy',text:'Hành tinh gần Mặt Trời nhất. Không có khí quyển đáng kể. Nhiệt độ dao động cực lớn từ -173°C đến 427°C.'},
+  venus:{title:'Sao Kim',text:'Hành tinh sáng nhất trên bầu trời. Khí quyển dày CO₂ gây hiệu ứng nhà kính mạnh. Nóng nhất trong hệ Mặt Trời (~462°C).'},
+  earth:{title:'Trái Đất',text:'Hành tinh duy nhất có sự sống. 71% bề mặt là nước. Có từ trường bảo vệ, khí quyển phù hợp.'},
+  mars:{title:'Sao Hỏa',text:'"Hành tinh Đỏ" do sắt oxit. Có cực băng, núi lửa lớn nhất Olympus Mons. Có khả năng từng có nước lỏng.'},
+  jupiter:{title:'Sao Mộc',text:'Hành tinh khí khổng lồ lớn nhất. Có Vết Đỏ Lớn (bão lớn hơn Trái Đất). Hơn 79 vệ tinh.'}
+};
+function showInfo(k){
+  document.getElementById('modalTitle').textContent=info[k].title;
+  document.getElementById('modalText').textContent=info[k].text;
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')nextSlide();
+  if(e.key==='ArrowLeft')prevSlide();
+  if(e.key==='Escape')closeModal();
+});
+createStars();createBigBang();createGalaxy();
+</script>
+</body>
+</html>
